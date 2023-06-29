@@ -1,0 +1,27 @@
+project:
+  type: website
+  output-dir: docs
+
+website:
+  title: "PSTAT100"
+  navbar:
+    collapse-level: 1
+    search: true
+    background: primary
+    foreground: light
+    left:
+      - href: index.qmd
+        text: Home
+      - href: about.qmd
+        text: Course Syllabus
+      - href: materials.qmd
+        text: Materials
+   
+format:
+  html:
+    theme: cosmo
+    css: styles.css
+    toc: true
+
+editor: visual
+

@@ -1,0 +1,22 @@
+---
+title: "Materials"
+---
+
+## Getting started Checklist
+
+-   Confirm access to all course pages
+-   Read syllabus
+
+## Week 1
+
+*Readings*:
+
+-   [The Data Science Lifecycle](https://learningds.org/ch/01/lifecycle_intro.html)
+-   [Understanding data types in python](https://jakevdp.github.io/PythonDataScienceHandbook/02.01-understanding-data-types.html)
+-   [The basics of numpy arrays](https://jakevdp.github.io/PythonDataScienceHandbook/02.02-the-basics-of-numpy-arrays.html)
+-   [Aggregations: min, max, and everything in between](https://jakevdp.github.io/PythonDataScienceHandbook/02.04-computation-on-arrays-aggregates.html)
+
+**Tuesday:** [[slides](/docs/Lectures/week0-lifecycle/week0-lifecycle.slides.html)]\
+**Lab section:** Lab 0 [zip](/docs/Lab0.zip)\
+**Wednesday-Thursday**[[slides](/docs/Lectures/week1-tidy/week1-tidy.slides.html)]\
+
