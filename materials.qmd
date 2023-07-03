@@ -22,7 +22,7 @@ title: "Materials"
 **Lab section:** Lab 1 [[zip](/docs/Labs/Lab1.zip)][[html](/docs/Labs/Lab1/lab1-pandas.html)]\
 
 
-## Week 1
+## Week 2
 
 **Monday-Thursday**[[slides pdf](/docs/Lectures/week2-sampling/week2 slides.pdf)]\
 
