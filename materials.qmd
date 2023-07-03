@@ -21,3 +21,8 @@ title: "Materials"
 **Wednesday-Thursday**[[slides](/docs/Lectures/week1-tidy/week1-tidy.slides.html)]\
 **Lab section:** Lab 1 [[zip](/docs/Labs/Lab1.zip)][[html](/docs/Labs/Lab1/lab1-pandas.html)]\
 
+
+## Week 1
+
+**Monday-Thursday**[[slides pdf](/docs/Lectures/week2-sampling/week2 slides.pdf)]\
+
