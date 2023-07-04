@@ -25,4 +25,5 @@ title: "Materials"
 ## Week 2
 
 **Monday-Thursday**[[slides pdf](/docs/Lectures/week2-sampling/week2 slides.pdf)]\
+**Hw1**[[notebook](https://pstat100.lsit.ucsb.edu/hub/user-redirect/lab/tree/PSTAT100-website/hw1-brfss/hw1-brfss.ipynb)]
 
