@@ -24,6 +24,13 @@ title: "Materials"
 
 ## Week 2
 
+*Readings*:
+
+- LDS2.2 [Population, frame, sample](https://learningds.org/ch/02/data_scope_construct.html#)
+- Van Buuren, Flexible Imputation of Missing Data, section 2.2 [Concepts in incomplete data](https://stefvanbuuren.name/fimd/sec-idconcepts.html)
+- PDSH3.4 [Handling missing data](https://jakevdp.github.io/PythonDataScienceHandbook/03.04-missing-values.html)
+
 **Monday-Thursday**[[slides pdf](/docs/Lectures/week2-sampling/week2 slides.pdf)]\
-**Hw1**[[notebook](https://pstat100.lsit.ucsb.edu/hub/user-redirect/lab/tree/PSTAT100-website/hw1-brfss/hw1-brfss.ipynb)], [[zip](/docs/Hws/Hw1/Hw1.zip)], [[html](/docs/Hws/Hw1/hw1-brfss.html)]
+**Hw1**[[notebook](https://pstat100.lsit.ucsb.edu/hub/user-redirect/lab/tree/PSTAT100-website/hw1-brfss/hw1-brfss.ipynb)], [[zip](/docs/Hws/Hw1/Hw1.zip)], [[html](/docs/Hws/Hw1/hw1-brfss.html)]\
+**Lab2**[[html](/docs/Labs/Lab2/lab2-sampling.html)], [[zip](/docs/Labs/Lab2/lab2-sampling.zip)]
 
