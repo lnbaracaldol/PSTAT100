@@ -49,3 +49,16 @@ title: "Materials"
 **Wednesday-Thursday**[[slides](/docs/Lectures/week4-smoothing/lec4PDF_updated.pdf)]\
 **Lab3**[[html](/docs/Labs/Lab3/lab3-visualization.html)], [[zip](/docs/Labs/Lab3/lab3-visualization.zip)], due on Monday 07/17.\
 **Mini-Project1** [[zip](/docs/Projects/MP1/MP1.zip)], [[html](/docs/Projects/MP1/mp1-airquality.html)], due on Thursday 07/20.\
+
+
+## Week 4:
+
+*Readings*:
+
+- [Exploratory data analysis](https://learningds.org/ch/10/eda_distributions.html)
+- [Principal Component Analysis](https://jakevdp.github.io/PythonDataScienceHandbook/05.09-principal-component-analysis.html)
+
+
+**Monday-Thursday**[[slides pdf](/docs/Lectures/week5-pca/week5-pca slides.pdf)]\
+**Lab4** [[html](/docs/Labs/Lab4/lab4-smoothing.html)], [[zip](/docs/Labs/Lab4/Lab4.zip)], due on Monday 07/24.\
+**Hw2** [[zip](/docs/Hws/Hw2/Hw2.zip)], [[html](/docs/Hws/Hw2/hw2-seda.html)], due on Thursday 07/27.\
