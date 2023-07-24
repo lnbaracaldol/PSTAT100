@@ -131,5 +131,201 @@
     "title": "Materials",
     "section": "Week 4:",
     "text": "Week 4:\nReadings:\n\nExploratory data analysis\nPrincipal Component Analysis\n\nMonday-Thursday[slides pdf]\nLab4 [html], [zip], due on Monday 07/24.\nHw2 [zip], [html], due on Thursday 07/27."
+  },
+  {
+    "objectID": "materials.html#week-5",
+    "href": "materials.html#week-5",
+    "title": "Materials",
+    "section": "Week 5:",
+    "text": "Week 5:\nReadings:\n\nSimple linear models\nBasics of prediction intervals\nMultiple regression\n\nMonday-Thursday[slides]\nLab5 [html], [zip], due on Monday 07/31.\nHw3 [zip], [html], due on Thursday 08/03.\nClass Project[zip], [html],Groups spreadsheet due on Saturday 08/05."
+  },
+  {
+    "objectID": "docs/Lectures/week7-lse.html#this-week-the-simple-linear-model",
+    "href": "docs/Lectures/week7-lse.html#this-week-the-simple-linear-model",
+    "title": "Modeling concepts; least squares",
+    "section": "This week: the simple linear model",
+    "text": "This week: the simple linear model\n\nStatistical models\n\nWhat makes a model ‘statistical’?\nGoals of modeling: prediction, description, and inference\nWhen to avoid models\n\nThe simple linear regression model\n\nLine of best fit by least squares\nA model for the error distribution\nThe simple linear model\nInterpretation of estimates\nUncertainty quantification"
+  },
+  {
+    "objectID": "docs/Lectures/week7-lse.html#what-makes-a-model",
+    "href": "docs/Lectures/week7-lse.html#what-makes-a-model",
+    "title": "Modeling concepts; least squares",
+    "section": "What makes a model?",
+    "text": "What makes a model?\n\nA model is an idealized representation of a system. You likely use models every day. For instance, a weather forecast is [based on] a model.\n\nIn the context of quantitative methods a model is typically a mathematical representation of some system.\n\nQuick discussion:\n\nwhat are some examples of models you’ve encountered?\nin what sense are they models?\nare they statistical models?"
+  },
+  {
+    "objectID": "docs/Lectures/week7-lse.html#what-makes-a-model-statistical",
+    "href": "docs/Lectures/week7-lse.html#what-makes-a-model-statistical",
+    "title": "Modeling concepts; least squares",
+    "section": "What makes a model ‘statistical’?",
+    "text": "What makes a model ‘statistical’?\nOne straightforward view is that a statistical model is simply a probabilistic representation of a data-generating process. In other words, a probability distribution.\n\nFor a probability distribution to provide a sensible description of a data generating process:\n\none needs to be able to at least imagine collecting multiple datasets with the same basic structure\nobservations must be subject to randomness in some sense\n\n\n\nThat’s why sampling is so important to statisticians. Probabilistic sampling ensures:\n\nthe process by which data are collected is fixed and repeatable\nthe method of selection and measurement of observational units induces randomness in the data"
+  },
+  {
+    "objectID": "docs/Lectures/week7-lse.html#univariate-models",
+    "href": "docs/Lectures/week7-lse.html#univariate-models",
+    "title": "Modeling concepts; least squares",
+    "section": "Univariate models",
+    "text": "Univariate models\nSuppose you have a dataset comprising the number of meteorites that hit earth on each of 225 days. A very simple model is that the counts are independent Poisson random variables.\n\n\n\n\n\nthe model is parametric, with a single parameter \\(\\lambda\\), given by the Poisson distribution: \\(f(x; \\lambda) = \\lambda^{x} e^{-\\lambda}/x!\\)\nsince \\(\\mathbb{E}X = \\lambda\\) and observations are assumed independent and identically distributed, the model is ‘fitted’ by estimating \\(\\lambda = \\bar{x}\\)"
+  },
+  {
+    "objectID": "docs/Lectures/week7-lse.html#simple-example",
+    "href": "docs/Lectures/week7-lse.html#simple-example",
+    "title": "Modeling concepts; least squares",
+    "section": "Simple example",
+    "text": "Simple example\nHowever, the negative binomial distribution provides a better ‘fit’:\n\n\nperhaps not surprising, considering it has two parameters"
+  },
+  {
+    "objectID": "docs/Lectures/week7-lse.html#why-model-the-data-generating-process",
+    "href": "docs/Lectures/week7-lse.html#why-model-the-data-generating-process",
+    "title": "Modeling concepts; least squares",
+    "section": "Why model the data-generating process?",
+    "text": "Why model the data-generating process?\nA good description of a data-generating process usually captures two aspects of a system:\n\nthe deterministic aspects, allowing one to identify structure in the data; and\nthe random aspects or ‘noise’, allowing one to quantify uncertainty.\n\n\nIn our toy example, the better model captured both the most common value (a kind of structure) and the variation (noise)."
+  },
+  {
+    "objectID": "docs/Lectures/week7-lse.html#modeling-goals",
+    "href": "docs/Lectures/week7-lse.html#modeling-goals",
+    "title": "Modeling concepts; least squares",
+    "section": "Modeling goals",
+    "text": "Modeling goals\nModels serve one of three main purposes:\n\nPrediction: predict new data before it is observed.\nInference: make conclusions about a larger population than the observed data.\nDescription: less common, but sometimes models provide a convenient description of observed data.\n\n\nWe probably wouldn’t use a univariate model to make specific predictions, but we could for instance estimate the probability that over 40 meteorites (rarely observed) hit earth any given day."
+  },
+  {
+    "objectID": "docs/Lectures/week7-lse.html#models-youve-seen-already",
+    "href": "docs/Lectures/week7-lse.html#models-youve-seen-already",
+    "title": "Modeling concepts; least squares",
+    "section": "Models you’ve seen already",
+    "text": "Models you’ve seen already\nThe exploratory analysis techniques you’ve seen are actually very flexible models often used for descriptive purposes.\n\nKernel density estimates are models for univariate data\nLOESS curves are models for trends in bivariate data\nPrincipal components are models for correlation structures\n\n\nIt’s a little tricky to see, but these correspond to classes of probability distributions rather than specific ones. That’s why they’re so flexible."
+  },
+  {
+    "objectID": "docs/Lectures/week7-lse.html#its-okay-not-to-model-data",
+    "href": "docs/Lectures/week7-lse.html#its-okay-not-to-model-data",
+    "title": "Modeling concepts; least squares",
+    "section": "It’s okay not to model data",
+    "text": "It’s okay not to model data\nThere are a lot of situations when modeling simply isn’t appropriate or feasible.\nSketchy sampling: every statistical model makes some assumptions about the data collection process. These don’t always need to hold exactly, but models could be untenable if:\n\nthe way data were collected is highly opaque or nonsystematic\nthe sampling design or measurement procedures have serious flaws or inconsistencies\n\n\nSparse data: model fitting is sensitive to the specific dataset observed, and may be unreliable if it’s too sensitive. This commonly arises when:\n\nthe model has a lot of parameters\nthe dataset contains few observations (relative to the number of parameters)"
+  },
+  {
+    "objectID": "docs/Lectures/week7-lse.html#comment",
+    "href": "docs/Lectures/week7-lse.html#comment",
+    "title": "Modeling concepts; least squares",
+    "section": "Comment",
+    "text": "Comment\n\nThese univariate models usually don’t occur to us as models in the fullest sense, because:\n\nNo deterministic structure\nAll variation is random\n\n\nFor this reason you can’t do much with them, so they seem a bit uninteresting."
+  },
+  {
+    "objectID": "docs/Lectures/week7-lse.html#constructing-more-interesting-models",
+    "href": "docs/Lectures/week7-lse.html#constructing-more-interesting-models",
+    "title": "Modeling concepts; least squares",
+    "section": "Constructing more interesting models",
+    "text": "Constructing more interesting models\nMany models also involve an interesting deterministic component.\n\nA frequent strategy is to form a regression model:\n\nassume a distributional form for a quantity of interest\n‘regress’ the mean or other parameters of the distribution ‘on’ other variables – i.e., express the former as a function of the latter\n\n\n\nFor instance:\n\n\\(\\#\\text{meteors each day} \\sim \\text{poisson}(\\lambda)\\)\n\\(\\lambda = g(\\text{month})\\)"
+  },
+  {
+    "objectID": "docs/Lectures/week7-lse.html#linear-models",
+    "href": "docs/Lectures/week7-lse.html#linear-models",
+    "title": "Modeling concepts; least squares",
+    "section": "Linear models",
+    "text": "Linear models\nA linear regression model is one in which the deterministic component is linear: the mean of a variable of interest is a linear function of one or more other variables.\nFor instance:\n\nYou may not have realized it at the time, but those lines are simple linear regression models: they describe the mean gaps as linear functions of log median income."
+  },
+  {
+    "objectID": "docs/Lectures/week7-lse.html#remarks-on-terminology",
+    "href": "docs/Lectures/week7-lse.html#remarks-on-terminology",
+    "title": "Modeling concepts; least squares",
+    "section": "Remarks on terminology",
+    "text": "Remarks on terminology\n\nA linear regression model is simple if it involves only one variable of interest \\(Y\\) and one additional variable \\(X\\)\n\n\\(Y\\) is the ‘response’, ‘dependent’, or ‘endogenous’ variable\n\\(X\\) is the ‘explanatory’, ‘independent’, or ‘exogenous’ variable\n\nThe multiple linear regression model involves multiple explanatory variables \\(X_1, X_2, \\dots\\)\nMultivariate linear regression models involve multiple responses \\(Y_1, Y_2, \\dots\\)\n“Linear regression model” is usually taken to mean a model in which \\(Y\\) is assumed to be normal, given \\(X\\)"
+  },
+  {
+    "objectID": "docs/Lectures/week7-lse.html#applications-of-linear-models",
+    "href": "docs/Lectures/week7-lse.html#applications-of-linear-models",
+    "title": "Modeling concepts; least squares",
+    "section": "Applications of linear models",
+    "text": "Applications of linear models\nLinear models can be used for prediction, inference, or both.\n\nPredict the gender achievement gaps for a new district based on median income in the district.\nQuantify the association between median income and achievement gaps.\n\n\nWe’re going to talk in detail about the model itself:\n\ndefinition\nestimation\nassumptions"
+  },
+  {
+    "objectID": "docs/Lectures/week7-lse.html#data-setting",
+    "href": "docs/Lectures/week7-lse.html#data-setting",
+    "title": "Modeling concepts; least squares",
+    "section": "Data setting",
+    "text": "Data setting\nLet’s first introduce the kind of data that the simple linear model describes.\n\nThere are two variables, \\(X\\) and \\(Y\\).\nThe data values are \\(n\\) observations of these two variables: \\[\n(x_1, y_1), \\dots, (x_n, y_n)\n\\]\n\n\nThe notation in tuples indicates the pairing of the values when measured on the same observational unit. If it helps, think of them as rows of an \\(n\\times 2\\) dataframe:\n\n\n\n\\(X\\)\n\\(Y\\)\n\n\n\n\n\\(x_1\\)\n\\(y_1\\)\n\n\n\\(x_2\\)\n\\(y_2\\)\n\n\n\\(\\vdots\\)\n\\(\\vdots\\)\n\n\n\\(x_n\\)\n\\(y_n\\)"
+  },
+  {
+    "objectID": "docs/Lectures/week7-lse.html#data-setting-1",
+    "href": "docs/Lectures/week7-lse.html#data-setting-1",
+    "title": "Modeling concepts; least squares",
+    "section": "Data setting",
+    "text": "Data setting\nThe notation above is just a mathematical description of data that looks like this:\n\nIn our notation, \\(X\\) would represent log median income, and \\(Y\\) would represent the math gap."
+  },
+  {
+    "objectID": "docs/Lectures/week7-lse.html#data-setting-2",
+    "href": "docs/Lectures/week7-lse.html#data-setting-2",
+    "title": "Modeling concepts; least squares",
+    "section": "Data setting",
+    "text": "Data setting\nThe example SEDA data in tabular form are:\n\n\nCode\n# import grade-aggregated seda data from hw2\nseda = pd.read_csv('data/seda.csv')\n\n# filter to math and remove NaNs\nregdata = seda[seda.subject == 'math'].dropna().drop(columns = 'subject').set_index('id')\n\n# dimensions\nn, p = regdata.shape\n\n# print\nregdata.head(3)\n\n\n\n\n\n\n\n\n\nlog_income\ngap\n\n\nid\n\n\n\n\n\n\n600001\n11.392048\n-0.562855\n\n\n600006\n11.607236\n0.061163\n\n\n600011\n10.704570\n-0.015417\n\n\n\n\n\n\n\n\nThe tuples would be: \\[\n(\\text{log_income}_1, \\text{gap}_1)\\;,\\; (\\text{log_income}_2, \\text{gap}_2)\\;,\\; \\dots\\;,\\; (\\text{log_income}_{625}, \\text{gap}_{625})\n\\]\n\n\nOr more specifically: \\[\n(11.392, -0.563)\\;,\\; (11.607, 0.061)\\;,\\; \\dots\\;,\\; (11.229, -0.040)\n\\]"
+  },
+  {
+    "objectID": "docs/Lectures/week7-lse.html#lines-and-data",
+    "href": "docs/Lectures/week7-lse.html#lines-and-data",
+    "title": "Modeling concepts; least squares",
+    "section": "Lines and data",
+    "text": "Lines and data\nA line in slope-intercept form is given by the equation: \\[\ny = ax + b\n\\]\n\nData values never fall exactly on a line. So in general for every \\(a, b\\): \\[\ny_i \\neq a x_i + b\n\\]\n\n\nBut we can describe any dataset as a line and a ‘residual’: \\[\ny_i = \\underbrace{a x_i + b}_\\text{line} \\underbrace{+\\;e_i}_\\text{residual}\n\\]"
+  },
+  {
+    "objectID": "docs/Lectures/week7-lse.html#lines-and-data-1",
+    "href": "docs/Lectures/week7-lse.html#lines-and-data-1",
+    "title": "Modeling concepts; least squares",
+    "section": "Lines and data",
+    "text": "Lines and data\nHere’s a picture:\n\n\nEach residual is simply the vertical distance of a value of \\(Y\\) from the line: \\[\n\\color{grey}{e_i} = \\color{blue}{y_i} - \\color{red}{(a x_i + b)}\n\\]"
+  },
+  {
+    "objectID": "docs/Lectures/week7-lse.html#many-possible-lines",
+    "href": "docs/Lectures/week7-lse.html#many-possible-lines",
+    "title": "Modeling concepts; least squares",
+    "section": "Many possible lines",
+    "text": "Many possible lines\nThis makes it possible to express \\(Y\\) as a linear function of \\(X\\).\n\nHowever, the mathematical description is somewhat tautological, since for any \\(a, b\\), there are residuals \\(e_1, \\dots, e_n\\) such that \\[\ny_i = a x_i + b + e_i\n\\]\n\n\nIn other words, there are infinitely many possible lines. So which values of \\(a\\) and \\(b\\) should be chosen for a given set of data values?"
+  },
+  {
+    "objectID": "docs/Lectures/week7-lse.html#the-least-squares-line",
+    "href": "docs/Lectures/week7-lse.html#the-least-squares-line",
+    "title": "Modeling concepts; least squares",
+    "section": "The least squares line",
+    "text": "The least squares line\nA sensible criterion is to find the line for which:\n\nthe average residual \\(\\bar{e}\\) is zero; and\nthe residuals vary the least.\n\n\nIf \\(\\bar{e} = 0\\), then the residual variance is proportional to the sum of squared residuals: \\[\n\\frac{1}{n - 1}\\sum_{i = 1}^n (e_i - \\bar{e})^2 = \\frac{1}{n - 1}\\sum_{i = 1}^n e_i^2\n\\]\n\n\nSo the values of \\(a, b\\) that minimize \\(\\sum_i e_i\\) give the ‘best’ line (in one sense of the word ‘best’). This method is known as least squares. \\[\n(a^*, b^*) = \\arg\\min_{(a, b)}\\left\\{\\sum_{i = 1}^n \\underbrace{\\left(y_i - (a x_i + b)\\right)^2}_{e_i^2}\\right\\}\n\\]"
+  },
+  {
+    "objectID": "docs/Lectures/week7-lse.html#deriving-the-least-squares-line",
+    "href": "docs/Lectures/week7-lse.html#deriving-the-least-squares-line",
+    "title": "Modeling concepts; least squares",
+    "section": "Deriving the least squares line",
+    "text": "Deriving the least squares line\nLet’s try doing the derivation using univariate calculus. Note: \\(e_i = y_i - a - b x_i\\).\n\\[\n\\frac{d}{da} \\sum_i e_i^2 = \\cdots \\hskip{7in}\n\\]\n\\[\n\\frac{d}{db} \\sum_i e_i^2 = \\cdots \\hskip{7in}\n\\]\nIf \\(\\frac{d}{da} \\sum_i e_i^2 = 0\\) and \\(\\frac{d}{db} \\sum_i e_i^2 = 0\\) then…"
+  },
+  {
+    "objectID": "docs/Lectures/week7-lse.html#deriving-the-least-squares-line-1",
+    "href": "docs/Lectures/week7-lse.html#deriving-the-least-squares-line-1",
+    "title": "Modeling concepts; least squares",
+    "section": "Deriving the least squares line",
+    "text": "Deriving the least squares line\nAlternatively, the model can be written in matrix form as \\(\\mathbf{y} = \\mathbf{Xa} + \\mathbf{e}\\), where:\n\\[\n\\underbrace{\\left[\\begin{array}{c} y_1 \\\\\\vdots\\\\ y_n \\end{array}\\right]}_{\\mathbf{y}}\n    = \\underbrace{\\left[\\begin{array}{cc}\n        1 & x_1 \\\\\n        \\vdots & \\vdots \\\\\n        1 & x_n\n        \\end{array}\\right]}_{\\mathbf{X}}\n      \\underbrace{\\left[\\begin{array}{c} a \\\\ b \\end{array}\\right]}_{\\mathbf{a}}\n      + \\underbrace{\\left[\\begin{array}{c} e_1 \\\\\\vdots\\\\ e_n \\end{array}\\right]}_{\\mathbf{e}}\n\\]\n\nThen, the sum of squared residuals is: \\[\n\\mathbf{e'e} = (\\mathbf{y} - \\mathbf{Xa})'(\\mathbf{y} - \\mathbf{Xa})\n\\]\n\n\nUsing vector calculus, one can show that: \\[\n\\nabla_\\mathbf{a} \\mathbf{e'e} = 0 \\quad\\Longrightarrow\\quad 2\\mathbf{X'y} = 2\\mathbf{X'Xa} \\quad\\Longrightarrow\\quad \\mathbf{a} = (\\mathbf{X'X})^{-1}\\mathbf{X'y}\n\\] And that this is a minimum."
+  },
+  {
+    "objectID": "docs/Lectures/week7-lse.html#calculating-the-least-squares-line",
+    "href": "docs/Lectures/week7-lse.html#calculating-the-least-squares-line",
+    "title": "Modeling concepts; least squares",
+    "section": "Calculating the least squares line",
+    "text": "Calculating the least squares line\nThe solution \\(\\mathbf{a} = (\\mathbf{X'X})^{-1}\\mathbf{X'y}\\) is known as the ordinarly least squares (OLS) estimate.\nThe sklearn implementation looks like this:\n\n# save explanatory variable and response variable separately as arrays\nx = regdata.log_income.values[:, np.newaxis]\ny = regdata.gap.values\n\n# configure regression module and fit model\nslr = LinearRegression()\nslr.fit(x, y)\n\n# store estimates\nprint('slope: ', slr.coef_[0])\nprint('intercept: ', slr.intercept_)\n\nslope:  0.12105696076155241\nintercept:  -1.3561699570330028"
+  },
+  {
+    "objectID": "docs/Lectures/week7-lse.html#calculating-the-least-squares-line-1",
+    "href": "docs/Lectures/week7-lse.html#calculating-the-least-squares-line-1",
+    "title": "Modeling concepts; least squares",
+    "section": "Calculating the least squares line",
+    "text": "Calculating the least squares line\nThe solution \\(\\mathbf{a} = (\\mathbf{X'X})^{-1}\\mathbf{X'y}\\) is known as the ordinarly least squares (OLS) estimate.\nThe statsmodels implementation looks like this:\n\n# add a column of ones (intercept)\nx_aug = sm.tools.add_constant(x)\n\n# fit model\nslr = sm.OLS(endog = y, exog = x_aug)\nslr_fit = slr.fit()\n\n# return estimates\nprint('estimates: ', slr_fit.params)\n\nestimates:  [-1.35616996  0.12105696]\n\n\n\nNote a constant has to be added to x. Why?"
+  },
+  {
+    "objectID": "docs/Lectures/week7-lse.html#calculating-the-least-squares-line-2",
+    "href": "docs/Lectures/week7-lse.html#calculating-the-least-squares-line-2",
+    "title": "Modeling concepts; least squares",
+    "section": "Calculating the least squares line",
+    "text": "Calculating the least squares line\nAlternatively, statsmodels also has a wrapper around sm.OLS that allows models to be fit based on a dataframe and column names (much like lm() in R):\n\nimport statsmodels.formula.api as smf\n\n# fit model based on dataframe and formula\nslr = smf.ols(formula = 'gap ~ log_income', data = regdata)\nslr_fit = slr.fit()\n\n# return estimates\nslr_fit.params\n\nIntercept    -1.356170\nlog_income    0.121057\ndtype: float64"
+  },
+  {
+    "objectID": "docs/Lectures/week7-lse.html#calculating-the-least-squares-line-3",
+    "href": "docs/Lectures/week7-lse.html#calculating-the-least-squares-line-3",
+    "title": "Modeling concepts; least squares",
+    "section": "Calculating the least squares line",
+    "text": "Calculating the least squares line\nWe can check the calculations by computing the closed-form expression:\n\n# ols solution, by hand\nx_mx = np.vstack([np.repeat(1, len(x)), x[:, 0]]).transpose() # X\nxtx = x_mx.transpose().dot(x_mx) # X'X\nxtx_inv = np.linalg.inv(xtx) # (X'X)^{-1}\nxtx_inv.dot(x_mx.transpose()).dot(y) # (X'X)^{-1} X'y\n\narray([-1.35616996,  0.12105696])"
   }
 ]
