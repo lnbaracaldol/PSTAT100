@@ -137,7 +137,7 @@
     "href": "materials.html#week-5",
     "title": "Materials",
     "section": "Week 5:",
-    "text": "Week 5:\nReadings:\n\nSimple linear models\nBasics of prediction intervals\nMultiple regression\n\nMonday-Thursday[slides]\nLab5 [html], [zip], due on Monday 07/31.\nHw3 [zip], [html], due on Thursday 08/03.\nClass Project[zip], [html],Groups spreadsheet due on Saturday 08/05."
+    "text": "Week 5:\nReadings:\n\nSimple linear models\nBasics of prediction intervals\nMultiple regression\n\nMonday-Thursday[slides 1][slides 2]\nLab5 [html], [zip], due on Monday 07/31.\nHw3 [zip], [html], due on Thursday 08/03.\nClass Project[zip], [html],Groups spreadsheet due on Saturday 08/05."
   },
   {
     "objectID": "docs/Lectures/week7-lse.html#this-week-the-simple-linear-model",
@@ -327,5 +327,229 @@
     "title": "Modeling concepts; least squares",
     "section": "Calculating the least squares line",
     "text": "Calculating the least squares line\nWe can check the calculations by computing the closed-form expression:\n\n# ols solution, by hand\nx_mx = np.vstack([np.repeat(1, len(x)), x[:, 0]]).transpose() # X\nxtx = x_mx.transpose().dot(x_mx) # X'X\nxtx_inv = np.linalg.inv(xtx) # (X'X)^{-1}\nxtx_inv.dot(x_mx.transpose()).dot(y) # (X'X)^{-1} X'y\n\narray([-1.35616996,  0.12105696])"
+  },
+  {
+    "objectID": "docs/Lectures/week7-slr.html#from-last-time",
+    "href": "docs/Lectures/week7-slr.html#from-last-time",
+    "title": "Simple linear regression",
+    "section": "From last time",
+    "text": "From last time\n\nstatistical models are probabilistic represenations of data generating processes\n\nsome randomness must be present (usually from sampling) for this to be sensible\n\nregression models relate a variable of interest to one or more other ‘explanatory’ variables and consist of:\n\na distribution for the variable of interest\nexpression(s) for the distribution’s parameters in terms of the explanatory variable(s)\n\nfor linear regression, the mean of the response is a linear function of the explanatory variable(s)\n\n‘simple’ if one explanatory variable\n‘multiple’ if many explanatory variables\n‘multivariate’ if many variables of interest"
+  },
+  {
+    "objectID": "docs/Lectures/week7-slr.html#from-last-time-1",
+    "href": "docs/Lectures/week7-slr.html#from-last-time-1",
+    "title": "Simple linear regression",
+    "section": "From last time",
+    "text": "From last time\nA simple linear model is \\(y_i = a x_i + b + e_i\\) where \\(e_i\\) are ‘residuals’ – leftover quantities.\n\nThe least squares line minimizes the sum of squared residuals \\(\\sum_i e_i^2\\) – i.e., the residual variance, assuming the line passes through the mean.\n\\[\n\\begin{align*}\nb &= \\frac{S_x}{S_y} \\text{corr}(x, y) \\\\\na &= \\bar{y} - b\\bar{x}\n\\end{align*}\n\\]"
+  },
+  {
+    "objectID": "docs/Lectures/week7-slr.html#visualizing-the-line",
+    "href": "docs/Lectures/week7-slr.html#visualizing-the-line",
+    "title": "Simple linear regression",
+    "section": "Visualizing the line",
+    "text": "Visualizing the line\nVerifying that the line plotted on a prediction grid (left) matches the regression transform from Altair (right):"
+  },
+  {
+    "objectID": "docs/Lectures/week7-slr.html#not-a-statistical-model-yet",
+    "href": "docs/Lectures/week7-slr.html#not-a-statistical-model-yet",
+    "title": "Simple linear regression",
+    "section": "Not a statistical model, yet",
+    "text": "Not a statistical model, yet\nThe least squares line is simply an algebraic transformation of the data – technically, a projection.\n\nThis is not yet a statistical model according to our definition, since there is no probability distribution involved.\n\n\nWe can change that by considering the residuals to be random."
+  },
+  {
+    "objectID": "docs/Lectures/week7-slr.html#residual-distribution",
+    "href": "docs/Lectures/week7-slr.html#residual-distribution",
+    "title": "Simple linear regression",
+    "section": "Residual distribution",
+    "text": "Residual distribution\nHave a look at the histogram of the residuals (with a KDE curve):\n\n\nDoes this look like any probability density function you encountered in 120A?"
+  },
+  {
+    "objectID": "docs/Lectures/week7-slr.html#residual-distribution-1",
+    "href": "docs/Lectures/week7-slr.html#residual-distribution-1",
+    "title": "Simple linear regression",
+    "section": "Residual distribution",
+    "text": "Residual distribution\nThe residual distribution is pretty well-approximated by the normal or Gaussian distribution:"
+  },
+  {
+    "objectID": "docs/Lectures/week7-slr.html#the-error-model",
+    "href": "docs/Lectures/week7-slr.html#the-error-model",
+    "title": "Simple linear regression",
+    "section": "The error model",
+    "text": "The error model\nThis phenomenon – nearly normal residuals – is pretty common in practice.\n\nSo a standard distributional model for the residuals is that they are independent normal random variables. This is written as:\n\\[\ne_i \\stackrel{iid}{\\sim} N\\left(0, \\sigma^2\\right)\n\\]\n\n\nThis is an important modification because it induces a probability distribution on \\(y_i\\)."
+  },
+  {
+    "objectID": "docs/Lectures/week7-slr.html#the-simple-linear-regression-model",
+    "href": "docs/Lectures/week7-slr.html#the-simple-linear-regression-model",
+    "title": "Simple linear regression",
+    "section": "The simple linear regression model",
+    "text": "The simple linear regression model\nNow we’re in a position to state the simple linear regression model:\n\\[\ny_i = \\beta_0 + \\beta_1 x_i + \\epsilon_i \\quad\n\\begin{cases}\ni = 1, \\dots, n \\\\\n\\epsilon_i \\sim N\\left(0,\\sigma^2\\right)\n\\end{cases}\n\\]\n\n\\(y_i\\) is the response variable\n\\(x_i\\) is the explanatory variable\n\\(\\epsilon_i\\) is the random error\n\\(\\beta_0, \\beta_1, \\sigma^2\\) are the model parameters\n\n\\(\\beta_0\\) is the intercept\n\\(\\beta_1\\) is the coefficient\n\\(\\sigma^2\\) is the error variance"
+  },
+  {
+    "objectID": "docs/Lectures/week7-slr.html#properties-of-the-normal-distribution",
+    "href": "docs/Lectures/week7-slr.html#properties-of-the-normal-distribution",
+    "title": "Simple linear regression",
+    "section": "Properties of the normal distribution",
+    "text": "Properties of the normal distribution\nAs a refresher from 120A, if \\(X \\sim N(\\mu, \\sigma^2)\\) then:\n\n(Mean) \\(\\mathbb{E}X = \\mu\\)\n(Variance) \\(\\text{var}X = \\sigma^2\\)\n(Linearity) For constants \\(a, b\\), \\(aX + b \\sim N(a\\mu + b, a^2\\sigma^2)\\)"
+  },
+  {
+    "objectID": "docs/Lectures/week7-slr.html#model-implications",
+    "href": "docs/Lectures/week7-slr.html#model-implications",
+    "title": "Simple linear regression",
+    "section": "Model implications",
+    "text": "Model implications\nTreating the error term as random has a number of implications that follow from the properties of the normal distribution:\n\n(Normality) The response is a normal random variable: \\(y_i \\sim N\\left(\\beta_0 + \\beta_1 x_i, \\sigma^2\\right)\\)\n(Linearity) The mean response is linear in \\(X\\): \\(\\mathbb{E}y_i = \\beta_0 + \\beta_1 x_i\\)\n(Constant variance) The response has variance: \\(\\text{var}y_i = \\sigma^2\\)\n(Independence) The observations are independent (because the errors are): \\(y_i \\perp y_j\\)\n\n\nThese are the assumptions of the simple linear regression model.\n\n\nAside: other error distributions, or conditions that don’t assume a specific distribution, are possible."
+  },
+  {
+    "objectID": "docs/Lectures/week7-slr.html#estimates",
+    "href": "docs/Lectures/week7-slr.html#estimates",
+    "title": "Simple linear regression",
+    "section": "Estimates",
+    "text": "Estimates\nYou’ve already seen how to compute the least squares estimates of \\(\\beta_0, \\beta_1\\) – these are no different when the errors are random.\n\nEstimates are typically denoted by the corresponding paramater with a hat:\n\\[\n\\begin{align*}\n\\hat{\\beta}_1\n    &= \\frac{\n        \\sum_i (x_i - \\bar{x})(y_i - \\bar{y})\n        }{\n        \\sum_i (x_i - \\bar{x})^2\n        } \\\\\n\\hat{\\beta}_0\n    &= \\bar{y} - \\hat{\\beta}_1 \\bar{x}\n\\end{align*}\n\\]\n\n\nAn estimate of the error variance is:\n\\[\n\\hat{\\sigma}^2 = \\frac{1}{n - 2} \\sum_{i = 1}^n \\left(y_i - \\hat{\\beta}_0 - \\hat{\\beta}_1 x_i\\right)^2\n\\]"
+  },
+  {
+    "objectID": "docs/Lectures/week7-slr.html#estimates-matrix-form",
+    "href": "docs/Lectures/week7-slr.html#estimates-matrix-form",
+    "title": "Simple linear regression",
+    "section": "Estimates (matrix form)",
+    "text": "Estimates (matrix form)\nThese estimates can be expressed in matrix form as:\n\\[\n\\begin{align*}\n\\hat{\\beta} &= (\\mathbf{X'X})^{-1}\\mathbf{X'y} \\\\\n\\hat{\\sigma}^2\n    &= \\frac{1}{n - 2}\\left(\\mathbf{y} - \\mathbf{X}\\hat{\\beta}\\right)'\\left(\\mathbf{y} - \\mathbf{X}\\hat{\\beta}\\right)\n\\end{align*}\n\\]"
+  },
+  {
+    "objectID": "docs/Lectures/week7-slr.html#fitted-values-and-residuals",
+    "href": "docs/Lectures/week7-slr.html#fitted-values-and-residuals",
+    "title": "Simple linear regression",
+    "section": "Fitted values and residuals",
+    "text": "Fitted values and residuals\nThe projections of the data points onto the line are the estimated values of the response variable for each data point.\nThese are known as fitted values and denoted \\(\\hat{y}_i\\):\n\\[\n\\hat{y}_i = \\hat{\\beta}_0 + \\hat{\\beta}_1 x_i\n\\]\n\nThen, the differences between observed and fitted values give the model residuals:\n\\[\ne_i = y_i - \\hat{y}_i\n\\]"
+  },
+  {
+    "objectID": "docs/Lectures/week7-slr.html#computations",
+    "href": "docs/Lectures/week7-slr.html#computations",
+    "title": "Simple linear regression",
+    "section": "Computations",
+    "text": "Computations\n\n# retrieve data\nx = sm.tools.add_constant(regdata.log_income.values)\ny = regdata.gap.values\n\n# fit regression model\nslr = sm.OLS(endog = y, exog = x)\n\n# estimates\nbeta_hat = slr.fit().params\n\n# fitted values\nfitted = slr.fit().fittedvalues\n\n# residuals\nresids = slr.fit().resid\n\n# error variance estimate\nsigmasq_hat = slr.fit().scale\n\nprint('coefficient estimates: ', beta_hat)\nprint('error variance estimate: ', sigmasq_hat)\n\ncoefficient estimates:  [-1.35616996  0.12105696]\nerror variance estimate:  0.013171170616137325"
+  },
+  {
+    "objectID": "docs/Lectures/week7-slr.html#parameter-interpretations-intercept",
+    "href": "docs/Lectures/week7-slr.html#parameter-interpretations-intercept",
+    "title": "Simple linear regression",
+    "section": "Parameter interpretations: intercept",
+    "text": "Parameter interpretations: intercept\nThe intercept \\(\\beta_0\\) represents the mean response \\(\\mathbb{E}y_i\\) when \\(x_i = 0\\).\n\nIn the SEDA example:\n\nFor districts with a log median income of 0, the mean achievement gap between boys and girls is estimated to be -1.356 standard deviations from the national average.\n\n\n\nNot incorrect, but awkward:\n\nlog median income is not a natural quantity\nthe sign is confusing"
+  },
+  {
+    "objectID": "docs/Lectures/week7-slr.html#parameter-interpretations-intercept-1",
+    "href": "docs/Lectures/week7-slr.html#parameter-interpretations-intercept-1",
+    "title": "Simple linear regression",
+    "section": "Parameter interpretations: intercept",
+    "text": "Parameter interpretations: intercept\nBetter:\n\nFor school districts with a median income of 1 dollar, the mean achievement gap is estimated to favor girls by 1.356 standard deviations from the national average.\n\n\nCheck your understanding:\n\nwhy 1 dollar and not 0 dollars?\nwhy not -1.356?\n\nNot of particular interest here because no districts have a median income of 1 USD."
+  },
+  {
+    "objectID": "docs/Lectures/week7-slr.html#parameter-interpretations-slope",
+    "href": "docs/Lectures/week7-slr.html#parameter-interpretations-slope",
+    "title": "Simple linear regression",
+    "section": "Parameter interpretations: slope",
+    "text": "Parameter interpretations: slope\nThe slope \\(\\beta_1\\) represents the change in mean response \\(\\mathbb{E}y_i\\) per unit change in \\(x_i\\).\n\nIn the SEDA example:\n\nEach increase of log median income by 1 is associated with an estimated increase in mean achievement gap of 0.121 standard deviations from the national average in favor of boys.\n\n\n\nNot incorrect, but a bit awkward – how much is a change in log median income of 1 unit?"
+  },
+  {
+    "objectID": "docs/Lectures/week7-slr.html#parameter-interpretations-slope-1",
+    "href": "docs/Lectures/week7-slr.html#parameter-interpretations-slope-1",
+    "title": "Simple linear regression",
+    "section": "Parameter interpretations: slope",
+    "text": "Parameter interpretations: slope\nBetter:\n\nEvery doubling of median income is associated with an estimated increase in the mean achievement gap of 0.084 standard deviations from the national average in favor of boys.\n\n\nWhy doubling??\nHint: \\(\\hat{\\beta}_1\\log (2x) = \\hat{\\beta}_1\\log x + \\hat{\\beta}_1 \\log 2\\)"
+  },
+  {
+    "objectID": "docs/Lectures/week7-slr.html#parameter-interpretations-error-variance",
+    "href": "docs/Lectures/week7-slr.html#parameter-interpretations-error-variance",
+    "title": "Simple linear regression",
+    "section": "Parameter interpretations: error variance",
+    "text": "Parameter interpretations: error variance\nThe error variance \\(\\sigma^2\\) represents the variability in the response \\(y\\) after accounting for the explanatory variable \\(x\\).\n\nIn the SEDA example:\n\nAfter adjusting for log median income, the gender achievement gap varies among districts by an estimated 0.11 standard deviations from the national average.\n\n\n\nNote that \\(\\hat{\\sigma}\\) is reported for interpretation on the original scale, rather than \\(\\hat{\\sigma}^2\\)."
+  },
+  {
+    "objectID": "docs/Lectures/week7-slr.html#parameter-interpretations-error-variance-1",
+    "href": "docs/Lectures/week7-slr.html#parameter-interpretations-error-variance-1",
+    "title": "Simple linear regression",
+    "section": "Parameter interpretations: error variance",
+    "text": "Parameter interpretations: error variance\nCompare the estimated ‘raw’ variance in gender gap with the estimated residual variance after accounting for log median income:\n\n\nCode\nprint('raw variance: ', y.var(ddof = 1))\nprint('estimated residual variance: ', sigmasq_hat)\n\n\nraw variance:  0.015355417268162816\nestimated residual variance:  0.013171170616137325\n\n\n\nThe estimated variability in achievement gap diminishes a little after adjusting for log median income. The relative reduction is:\n\\[\n\\frac{\\hat{\\sigma}^2_\\text{raw} - \\hat{\\sigma}^2}{\\hat{\\sigma}^2_\\text{raw}}\n\\]\n\n\nIn the SEDA example, the reduction was about 14%:\n\n\nCode\nprint('relative reduction in variance: ',\n    (y.var(ddof = 1) - sigmasq_hat)/y.var(ddof = 1)\n)\n\n\nrelative reduction in variance:  0.14224599787035444"
+  },
+  {
+    "objectID": "docs/Lectures/week7-slr.html#parameter-interpretations-variance",
+    "href": "docs/Lectures/week7-slr.html#parameter-interpretations-variance",
+    "title": "Simple linear regression",
+    "section": "Parameter interpretations: variance",
+    "text": "Parameter interpretations: variance\nA closely related quantity is the R-squared statistic, which simply adjusts the denominator of the error variance estimate:\n\\[\n\\frac{\\hat{\\sigma}^2_\\text{raw} - \\frac{n - 2}{n - 1}\\hat{\\sigma}^2}{\\hat{\\sigma}^2_\\text{raw}}\n\\]\n\nused as a measure of fit\ninterpreted as the proportion of variation in the response explained by the model"
+  },
+  {
+    "objectID": "docs/Lectures/week7-slr.html#general-parameter-interpretations",
+    "href": "docs/Lectures/week7-slr.html#general-parameter-interpretations",
+    "title": "Simple linear regression",
+    "section": "General parameter interpretations",
+    "text": "General parameter interpretations\nThere is some general language for interpreting the parameter estimates:\n\n(Intercept) When [\\(x_i = 0\\)] the mean [response variable] is estimated to be [\\(\\hat{\\beta}_0\\) units].\n(Slope) Every [one-unit increase in \\(x_i\\)] is associated with an estimated change in mean [response variable] of [\\(\\hat{\\beta}_1\\) units].\n(Error variance) After adjusting for [explanatory variable], the remaining variability in [response variable] is an estimated [\\(\\hat{\\sigma}\\) units] about the mean.\n\n\nYou can use this standard language as a formulaic template for interpreting estimated parameters."
+  },
+  {
+    "objectID": "docs/Lectures/week7-slr.html#centering-the-explanatory-variable",
+    "href": "docs/Lectures/week7-slr.html#centering-the-explanatory-variable",
+    "title": "Simple linear regression",
+    "section": "Centering the explanatory variable",
+    "text": "Centering the explanatory variable\nIf we want the intercept to be meaningful, we could center the explanatory variable and instead fit:\n\\[\ny_i = \\beta_0 + \\beta_1 (x_i - \\bar{x}) + \\epsilon_i\n\\]\n\n\nCode\n# center log median income\nlog_income_ctr = (regdata.log_income - regdata.log_income.mean()).values\n\n# form x matrix\nx_ctr = sm.tools.add_constant(log_income_ctr)\n\n# refit model\nslr_ctr = sm.OLS(endog = y, exog = x_ctr)\nbeta_hat_ctr = slr_ctr.fit().params\n\n# display parameter estimates\nprint('coefficient estimates: ', beta_hat_ctr)\nprint('error variance estimate: ', slr_ctr.fit().scale)\n\n\ncoefficient estimates:  [-0.02105724  0.12105696]\nerror variance estimate:  0.013171170616137325\n\n\n\n\nFor a district with average log median income, the estimated achievement gap favors boys by 0.021 standard deviations from the national average.\n\n\nnote that this is just a location shift so other estimates are unchanged\ncan recover the original intercept estimate as \\(\\hat{\\beta}_0 - \\hat{\\beta}_1 \\bar{x}\\)\n\n\n\n\nbeta_hat_ctr[0] - beta_hat_ctr[1]*regdata.log_income.mean()\n\n-1.356169957033003"
+  },
+  {
+    "objectID": "docs/Lectures/week7-slr.html#other-transformations",
+    "href": "docs/Lectures/week7-slr.html#other-transformations",
+    "title": "Simple linear regression",
+    "section": "Other transformations",
+    "text": "Other transformations\nWe could seek to adjust the model so that the intercept is interpreted as the gap at the district with the smallest median income:\n\\[\ny_i = \\beta_0 + \\beta_1 \\log\\left(x_i - x_{(1)} + 1 \\right), \\quad x_i: \\text{median income for district } i\n\\]\n\nBut this changes the meaning of the other model terms:\n\n\\(\\beta_1\\) represents the change in mean gap associated with multiplicative changes in the amount by which a district’s median income exceeds that of the poorest district\n\\(\\sigma^2\\) is the variability of the gap after adjusting for the log of the difference in median income from the median income of the poorest district"
+  },
+  {
+    "objectID": "docs/Lectures/week7-slr.html#other-transformations-1",
+    "href": "docs/Lectures/week7-slr.html#other-transformations-1",
+    "title": "Simple linear regression",
+    "section": "Other transformations",
+    "text": "Other transformations\nUnsurprisingly, estimates are not invariant under arbitrary transformations, so if the meanings of the other parameters change, then so do the estimates:\n\n# center log median income\nincome = np.exp(regdata.log_income) \nincome_shifted = income - income.min()\nlog_income_shifted = np.log(income_shifted + 1)\n\n# form x matrix\nx_shifted = sm.tools.add_constant(log_income_shifted)\n\n# refit model\nslr_shifted = sm.OLS(endog = y, exog = x_shifted)\nbeta_hat_shifted = slr_shifted.fit().params\n\n# display parameter estimates\nprint('coefficient estimates: ', beta_hat_shifted)\nprint('error variance estimate: ', slr_shifted.fit().scale)\n\ncoefficient estimates:  const        -0.544166\nlog_income    0.049851\ndtype: float64\nerror variance estimate:  0.013904979364206382\n\n\n\nNote also it’s not possible to express the old parameters as functions of the new parameters; this is a fundamentally different model."
+  },
+  {
+    "objectID": "docs/Lectures/week7-slr.html#uncertainty-quantification",
+    "href": "docs/Lectures/week7-slr.html#uncertainty-quantification",
+    "title": "Simple linear regression",
+    "section": "Uncertainty quantification",
+    "text": "Uncertainty quantification\nA great benefit of the simple linear regression model relative to a best-fit line is that the error variance estimate allows for uncertainty quantification.\n\nWhat that means is that one can describe precisely:\n\nvariation in the estimates (i.e., estimated model reliability);\nvariation in predictions made using the estimated model (i.e., predictive reliability)."
+  },
+  {
+    "objectID": "docs/Lectures/week7-slr.html#understanding-variation-in-estimates",
+    "href": "docs/Lectures/week7-slr.html#understanding-variation-in-estimates",
+    "title": "Simple linear regression",
+    "section": "Understanding variation in estimates",
+    "text": "Understanding variation in estimates\nWhat would happen to the estimates if they were computed from a different sample?\n\nWe can explore this idea a little by calculating least squares estimates from several distinct subsamples of the dataset.\n\n\n\nThe lines are pretty similar, but they change a bit from subsample to subsample."
+  },
+  {
+    "objectID": "docs/Lectures/week7-slr.html#variance-of-least-squares",
+    "href": "docs/Lectures/week7-slr.html#variance-of-least-squares",
+    "title": "Simple linear regression",
+    "section": "Variance of least squares",
+    "text": "Variance of least squares\n\nHow much should one expect the estimates to change depending on the data they are fit to?\n\n\nIt can be shown that the variances and covariance of the estimates are:\n\\[\n\\left[\\begin{array}{cc}\n    \\text{var}\\hat{\\beta}_0 & \\text{cov}\\left(\\hat{\\beta}_0, \\hat{\\beta}_1\\right) \\\\\n    \\text{cov}\\left(\\hat{\\beta}_0, \\hat{\\beta}_1\\right) &\\text{var}\\hat{\\beta}_1\n    \\end{array}\\right]\n   = \\sigma^2 \\left(\\mathbf{X'X}\\right)^{-1}\n\\]\n\n\nBear in mind that the randomness comes from the \\(\\epsilon_i\\) model term.\n\nthese quantify how much the parameters vary across collections of \\(y_i\\)’s measured at exactly the same values of \\(x_i\\)\nthese are not variances of the parameters; \\(\\beta_0\\) and \\(\\beta_1\\) are constants, i.e., not random\nthey are also not variances of the estimates – e.g., \\(0.121\\) is yet another constant"
+  },
+  {
+    "objectID": "docs/Lectures/week7-slr.html#standard-errors",
+    "href": "docs/Lectures/week7-slr.html#standard-errors",
+    "title": "Simple linear regression",
+    "section": "Standard errors",
+    "text": "Standard errors\nSo the variances can be estimated by plugging in \\(\\color{red}{\\hat{\\sigma}^2}\\) for \\(\\sigma\\) in the variance-covariance matrix from the previous slide.\n\nThe estimated standard deviations are known as standard errors:\n\\[\n\\text{SE}(\\hat{\\beta}_0) = \\sqrt{\\color{red}{\\hat{\\sigma}^2}(\\mathbf{X'X})^{-1}_{11}} \\qquad\\text{and}\\qquad \\text{SE}(\\hat{\\beta}_1) = \\sqrt{\\color{red}{\\hat{\\sigma}^2}(\\mathbf{X'X})^{-1}_{22}}\n\\]"
+  },
+  {
+    "objectID": "docs/Lectures/week7-slr.html#computations-and-intepretations",
+    "href": "docs/Lectures/week7-slr.html#computations-and-intepretations",
+    "title": "Simple linear regression",
+    "section": "Computations and intepretations",
+    "text": "Computations and intepretations\nThe estimated variance-covariance of the least squares estimates is computed by the .cov_params() method:\n\nslr.fit().cov_params()\n\narray([[ 0.01708179, -0.00154692],\n       [-0.00154692,  0.00014026]])\n\n\n\nthe intercept estimate varies by an estimated \\(\\sqrt{0.0171} = 0.131\\) across datasets, with \\(x_i\\) fixed\nthe slope estimate varies by an estimated \\(\\sqrt{0.00014} = 0.0118\\) across datasets, with \\(x_i\\) fixed"
+  },
+  {
+    "objectID": "docs/Lectures/week7-slr.html#confidence-intervals",
+    "href": "docs/Lectures/week7-slr.html#confidence-intervals",
+    "title": "Simple linear regression",
+    "section": "Confidence intervals",
+    "text": "Confidence intervals\nAbout 95% of the time, the true values \\(\\beta_0, \\beta_1\\) will be within 2SE of any particular estimates \\(\\hat{\\beta}_0, \\hat{\\beta}_1\\).\n\nThe intervals \\(\\hat{\\beta}_j \\pm 2 SE(\\hat{\\beta}_j)\\) provide ranges of possible values for the true values \\(\\beta_j\\):\n\nslr.fit().conf_int()\n\narray([[-1.61283063, -1.09950928],\n       [ 0.09779946,  0.14431446]])\n\n\n\n\nThis supports two important inferences:\n\nwith 95% confidence, the intercept is estimated to be between -1.613 and -1.010\nwith 95% confidence, the slope is estimated to be between 0.098 and 0.144\n\n\n\nAnd the width of those intervals conveys a sense of the uncertainty associated with the estimates."
+  },
+  {
+    "objectID": "docs/Lectures/week7-slr.html#visualizing-uncertainty",
+    "href": "docs/Lectures/week7-slr.html#visualizing-uncertainty",
+    "title": "Simple linear regression",
+    "section": "Visualizing uncertainty",
+    "text": "Visualizing uncertainty\nIt’s fairly common practice to add a band around the plotted line to indicate estimated variability.\n\n\n\n\n\nrepresents the uncertainty/variability of the parameter estimates, i.e., of the trend line\ndoes not represent the uncertainty/variability of the observations – note the spread of data is considerably broader than the uncertainty band"
   }
 ]
