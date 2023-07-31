@@ -69,11 +69,24 @@ title: "Materials"
 *Readings*:
 
 - [Simple linear models](https://learningds.org/ch/15/linear_intro.html)
-- [Basics of prediction intervals](https://learningds.org/ch/17/inf_pred_gen_PI.html)
-- [Multiple regression](https://learningds.org/ch/15/linear_multi.html)
+
 
 
 **Monday-Thursday**[[slides 1](/docs/Lectures/week7-lse.qmd)][[slides 2](/docs/Lectures/week7-slr.qmd)]\
 **Lab5** [[html](/docs/Labs/Lab5/lab5-pca.html)], [[zip](/docs/Labs/Lab5/Lab5.zip)], due on Monday 07/31.\
 **Hw3** [[zip](/docs/Hws/Hw3/Hw3.zip)], [[html](/docs/Hws/Hw3/hw3-diatom.html)], due on Thursday 08/03.\
 **Class Project**[[zip](/docs/Projects/CP/CP.zip)], [[html](/docs/Projects/CP/project-guidelines.html)],[Groups spreadsheet](https://docs.google.com/spreadsheets/d/141QFwC7RxXOSzKzJYl6D0zlc9pFQYYObQTvhAfeqdQ8/edit?usp=sharing) due on Saturday 08/05.\
+
+
+## Week 6:
+
+*Readings*:
+
+- [Basics of prediction intervals](https://learningds.org/ch/17/inf_pred_gen_PI.html)
+- [Multiple regression](https://learningds.org/ch/15/linear_multi.html)
+
+**Monday-Thursday**[[slides](/docs/Lectures/week7-mlr.slides.html)]\
+**Lab6** [[html](/docs/Labs/Lab6/lab6-regression.html)], [[zip](/docs/Labs/Lab6/Lab6.zip)], due on Monday 08/07.\
+
+
+

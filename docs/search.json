@@ -137,7 +137,7 @@
     "href": "materials.html#week-5",
     "title": "Materials",
     "section": "Week 5:",
-    "text": "Week 5:\nReadings:\n\nSimple linear models\nBasics of prediction intervals\nMultiple regression\n\nMonday-Thursday[slides 1][slides 2]\nLab5 [html], [zip], due on Monday 07/31.\nHw3 [zip], [html], due on Thursday 08/03.\nClass Project[zip], [html],Groups spreadsheet due on Saturday 08/05."
+    "text": "Week 5:\nReadings:\n\nSimple linear models\n\nMonday-Thursday[slides 1][slides 2]\nLab5 [html], [zip], due on Monday 07/31.\nHw3 [zip], [html], due on Thursday 08/03.\nClass Project[zip], [html],Groups spreadsheet due on Saturday 08/05."
   },
   {
     "objectID": "docs/Lectures/week7-lse.html#this-week-the-simple-linear-model",
@@ -551,5 +551,243 @@
     "title": "Simple linear regression",
     "section": "Visualizing uncertainty",
     "text": "Visualizing uncertainty\nIt’s fairly common practice to add a band around the plotted line to indicate estimated variability.\n\n\n\n\n\nrepresents the uncertainty/variability of the parameter estimates, i.e., of the trend line\ndoes not represent the uncertainty/variability of the observations – note the spread of data is considerably broader than the uncertainty band"
+  },
+  {
+    "objectID": "materials.html#week-6",
+    "href": "materials.html#week-6",
+    "title": "Materials",
+    "section": "Week 6:",
+    "text": "Week 6:\nReadings:\n\nBasics of prediction intervals\nMultiple regression\n\nMonday-Thursday[slides]\nLab6 [html], [zip], due on Monday 08/07."
+  },
+  {
+    "objectID": "docs/Lectures/week8-mlr.html#announcements",
+    "href": "docs/Lectures/week8-mlr.html#announcements",
+    "title": "Multiple regression",
+    "section": "Announcements",
+    "text": "Announcements\nNo class Monday 5/29 due to Memorial Day.\n\nAssignments due Tuesday instead.\nLate deadline moved to Thursday.\nWednesday office hour cancelled on 5/31."
+  },
+  {
+    "objectID": "docs/Lectures/week8-mlr.html#loose-ends",
+    "href": "docs/Lectures/week8-mlr.html#loose-ends",
+    "title": "Multiple regression",
+    "section": "Loose ends",
+    "text": "Loose ends\nThe standard measure of predictive accuracy in regression is mean square error (MSE):\n\\[\nMSE(y, \\hat{y}) = \\frac{1}{n}\\sum_i (y_i - \\hat{y}_i)^2\n\\]\n\nestimates expected squared error, \\(\\mathbb{E}(y - \\hat{y})^2\\)\nbiased (underestimate on average) if fitted values are used\nunbiased if new observations are used\n\n\nTo avoid bias, it is common practice to partition data into nonoverlapping subsets:\n\none used to fit the model (‘training’ partition)\nanother used to evaluate predictions (‘testing’ or ‘validation’ partition)"
+  },
+  {
+    "objectID": "docs/Lectures/week8-mlr.html#measuring-predictive-accuracy",
+    "href": "docs/Lectures/week8-mlr.html#measuring-predictive-accuracy",
+    "title": "Multiple regression",
+    "section": "Measuring predictive accuracy",
+    "text": "Measuring predictive accuracy\nPartition the data:\n\n# hold out 100 randomly selected rows\nnp.random.seed(51823)\nidx = np.random.choice(regdata.index.values, size = 100, replace = False).tolist()\ntest = regdata.loc[idx]\ntrain = regdata.drop(index = idx)\n\n\nFit to the training partition:\n\n# fit model to training subset\nx_train = sm.tools.add_constant(train.log_income)\ny_train = train.gap\nslr = sm.OLS(endog = y_train, exog = x_train)\n\n\n\nEvaluate on the test/validation partition:\n\n# compute predictions\nx_test = sm.tools.add_constant(test.log_income)\npreds = slr.fit().get_prediction(x_test)\ny_hat = preds.predicted_mean\n\n# mean square error\npred_errors = test.gap - y_hat\nmse = (pred_errors**2).mean()\nprint('root mean square error: ', np.sqrt(mse))\n\nroot mean square error:  0.14377667235816582"
+  },
+  {
+    "objectID": "docs/Lectures/week8-mlr.html#interpreting-mse",
+    "href": "docs/Lectures/week8-mlr.html#interpreting-mse",
+    "title": "Multiple regression",
+    "section": "Interpreting MSE",
+    "text": "Interpreting MSE\nInterpretation:\n\nThe model predictions vary about observed values with a standard deviation of 0.144 (SD of national average)."
+  },
+  {
+    "objectID": "docs/Lectures/week8-mlr.html#dont-use-training-mse",
+    "href": "docs/Lectures/week8-mlr.html#dont-use-training-mse",
+    "title": "Multiple regression",
+    "section": "(Don’t use) training MSE",
+    "text": "(Don’t use) training MSE\nCompare with MSE computed using fitted values:\n\n\nCode\n# note, these are just model residuals\nfit_errors = train.gap - slr.fit().fittedvalues\n\n# training rmse\nprint('rmse on training partition: ',np.sqrt((fit_errors**2).mean()))\nprint('rmse on test partition: ', np.sqrt(mse))\n\n\nrmse on training partition:  0.10843963485562963\nrmse on test partition:  0.14377667235816582\n\n\n\ntraining MSE is overly ‘optimistic’ – smaller than the proper estimate\nwon’t always be the case, but will be an underestimate on average across samples\n\n\nNote also that this is simply the estimate of the error variance, rescaled by \\(\\frac{n - 2}{n}\\).\n\nn, p = train.shape\nnp.sqrt(slr.fit().scale*(n - 2)/n)\n\n0.10843963485562962\n\n\n\n\nSince the model is fit by minimizing this quantity, out-of-sample predictions are absolutely necessary to get a good sense of the predictive reliability."
+  },
+  {
+    "objectID": "docs/Lectures/week8-mlr.html#multiple-regression",
+    "href": "docs/Lectures/week8-mlr.html#multiple-regression",
+    "title": "Multiple regression",
+    "section": "Multiple regression",
+    "text": "Multiple regression\nThe simple linear regression model has just one explanatory variable:\n\\[\n(\\text{SLR}) \\qquad\ny_i = \\beta_0 + \\beta_1 x_i + \\epsilon_i \\quad\\begin{cases} i = 1, \\dots, n \\\\\\epsilon_i \\sim N\\left(0,\\sigma^2\\right)\\end{cases}\n\\]\n\nThe multiple linear regression model is a direct extension of the simple linear model to \\(p - 1\\) variables \\(x_{i1}, \\dots, x_{i, p - 1}\\):\n\\[\n(\\text{MLR})\\qquad\ny_i = \\beta_0 + \\beta_1 x_{i1} + \\cdots + \\beta_{p - 1} x_{i, p - 1} + \\epsilon_i \\qquad\\begin{cases} \\epsilon_i \\sim N(0, \\sigma^2) \\\\ i = 1, \\dots, n\\end{cases}\n\\]\n\n\\(p\\) is the number of (mean) parameters\n\\(p = 2\\) is SLR\n\\(p &gt; 2\\) is MLR\nWhat’s \\(p = 1\\)??"
+  },
+  {
+    "objectID": "docs/Lectures/week8-mlr.html#the-model-in-matrix-form",
+    "href": "docs/Lectures/week8-mlr.html#the-model-in-matrix-form",
+    "title": "Multiple regression",
+    "section": "The model in matrix form",
+    "text": "The model in matrix form\nThe model in matrix form is \\(\\mathbf{y} = \\mathbf{X}\\beta + \\epsilon\\), where:\n\\[\n\\mathbf{y}: \\left[\\begin{array}{c} y_1 \\\\ y_2 \\\\ \\vdots \\\\ y_n \\end{array}\\right] \\; = \\;\n    \\mathbf{X}: \\left[\\begin{array}{cccc}\n        1 &x_{11} &\\cdots &x_{1, p - 1} \\\\\n        1 &x_{21} &\\cdots &x_{2, p - 1} \\\\\n        \\vdots &\\vdots &\\ddots &\\vdots \\\\\n        1 &x_{n1} &\\cdots &x_{n, p - 1}\n        \\end{array}\\right] \\; \\times \\;\n    \\beta: \\left[\\begin{array}{c} \\beta_0 \\\\ \\beta_1 \\\\ \\vdots \\\\ \\beta_{p - 1} \\end{array} \\right] \\; + \\;\n    \\epsilon: \\left[\\begin{array}{c} \\epsilon_1 \\\\ \\epsilon_2 \\\\ \\vdots \\\\ \\epsilon_n \\end{array}\\right]\n\\]\n\nCarrying out the arithmetic on the right-hand side:\n\\[\n\\left[\\begin{array}{c} y_1 \\\\ y_2 \\\\ \\vdots \\\\ y_n \\end{array}\\right]_{\\;n \\times 1} \\quad = \\quad\n    \\left[\\begin{array}{c}\n        \\beta_0 + \\beta_1 x_{11} + \\cdots + \\beta_{p - 1} x_{1, p - 1} + \\epsilon_1 \\\\\n        \\beta_0 + \\beta_1 x_{21} + \\cdots + \\beta_{p - 1} x_{2, p - 1} + \\epsilon_2 \\\\\n        \\vdots \\\\\n        \\beta_0 + \\beta_1 x_{n1} + \\cdots + \\beta_{p - 1} x_{n, p - 1} + \\epsilon_n\n        \\end{array}\\right]_{\\;n \\times 1}\n\\]\n\n\nThis is exactly the model relationship as written before, enumerated for each \\(i\\)."
+  },
+  {
+    "objectID": "docs/Lectures/week8-mlr.html#example",
+    "href": "docs/Lectures/week8-mlr.html#example",
+    "title": "Multiple regression",
+    "section": "Example",
+    "text": "Example\nLet’s consider the model you fit in lab:\n\\[\n(\\text{fertility rate})_i = \\beta_0 + \\beta_1 (\\text{HDI})_i + \\beta_2 (\\text{education})_i + \\epsilon_i\n\\]\n\nx_vars = fertility.loc[:, ['educ_expected_yrs_f', 'hdi']]\nx = sm.tools.add_constant(x_vars)\ny = fertility.fertility_total\n\nmlr = sm.OLS(endog = y, exog = x)"
+  },
+  {
+    "objectID": "docs/Lectures/week8-mlr.html#model-estimation",
+    "href": "docs/Lectures/week8-mlr.html#model-estimation",
+    "title": "Multiple regression",
+    "section": "Model estimation",
+    "text": "Model estimation\nEstimation and uncertainty quantification are exactly the same as in the simple linear model.\n\nThe least squares estimates are: \\[\n\\hat{\\beta} = \\left[\\begin{array}{c}\\hat{\\beta}_0 \\\\ \\vdots \\\\ \\hat{\\beta}_{p - 1} \\end{array}\\right] = \\left(\\mathbf{X'X}\\right)^{-1}\\mathbf{X'y}\n\\]\n\n# retrieve coefficient estimates\nmlr.fit().params\n\nconst                  7.960371\neduc_expected_yrs_f   -0.201996\nhdi                   -4.132623\ndtype: float64\n\n\n\n\nThis is the unique minimizer of the residual variance:\n\\[\n\\hat{\\beta} = \\text{argmin}_{\\beta \\in \\mathbb{R}^p}\\left\\{ (\\mathbf{y} - \\mathbf{X}\\beta)'(\\mathbf{y} - \\mathbf{X}\\beta)\\right\\}\n\\]"
+  },
+  {
+    "objectID": "docs/Lectures/week8-mlr.html#model-estimation-1",
+    "href": "docs/Lectures/week8-mlr.html#model-estimation-1",
+    "title": "Multiple regression",
+    "section": "Model estimation",
+    "text": "Model estimation\nAn estimate of the error variance is: \\[\n\\hat{\\sigma}^2\n    = \\frac{1}{n - p} \\sum_{i = 1}^n \\underbrace{\\left(y_i - \\hat{\\beta}_0 - \\hat{\\beta}_1 x_{i1} - \\cdots - \\hat{\\beta}_{p - 1}x_{i, p - 1}\\right)^2}_{i\\text{th squared model residual}}\n\\]\n\n# retrieve error variance estimate\nmlr.fit().scale\n\n0.3469089355991577\n\n\n\nThere are several alternative ways of writing the estimator \\(\\hat{\\sigma}^2\\).\n\n\\(\\frac{1}{n - p} \\sum_i (y_i - \\hat{y}_i)^2\\)\n\\(\\frac{1}{n - p} \\sum_i e_i^2\\)\n\\(\\frac{1}{n - p}\\left(\\mathbf{y} - \\mathbf{X}\\hat{\\beta}\\right)'\\left(\\mathbf{y} - \\mathbf{X}\\hat{\\beta}\\right)\\)\n\\(\\frac{RSS}{n - p}\\)"
+  },
+  {
+    "objectID": "docs/Lectures/week8-mlr.html#variability-of-estimates",
+    "href": "docs/Lectures/week8-mlr.html#variability-of-estimates",
+    "title": "Multiple regression",
+    "section": "Variability of estimates",
+    "text": "Variability of estimates\nThe variances and covariances of the coefficient estimates are found in exactly the same way as before, only now yield a \\(p \\times p\\) (instead of \\(2\\times 2\\)) matrix:\n\\[\n\\mathbf{V}\n= \\left[\\begin{array}{cccc}\n    \\text{var}\\hat{\\beta}_0\n        &\\text{cov}\\left(\\hat{\\beta}_0, \\hat{\\beta}_1\\right)\n        &\\cdots &\\text{cov}\\left(\\hat{\\beta}_0, \\hat{\\beta}_{p - 1}\\right) \\\\\n    \\text{cov}\\left(\\hat{\\beta}_0, \\hat{\\beta}_1\\right)\n        &\\text{var}\\hat{\\beta}_1\n        &\\cdots &\\text{cov}\\left(\\hat{\\beta}_1, \\hat{\\beta}_{p - 1}\\right) \\\\\n    \\vdots &\\vdots &\\ddots &\\vdots \\\\\n    \\text{cov}\\left(\\hat{\\beta}_0, \\hat{\\beta}_{p - 1}\\right)\n        &\\text{cov}\\left(\\hat{\\beta}_1, \\hat{\\beta}_{p - 1}\\right)\n        &\\cdots\n        &\\text{var}\\hat{\\beta}_{p - 1}\n    \\end{array}\\right]\n   = \\sigma^2 \\left(\\mathbf{X'X}\\right)^{-1}\n\\]"
+  },
+  {
+    "objectID": "docs/Lectures/week8-mlr.html#variability-of-estimates-1",
+    "href": "docs/Lectures/week8-mlr.html#variability-of-estimates-1",
+    "title": "Multiple regression",
+    "section": "Variability of estimates",
+    "text": "Variability of estimates\nThis matrix is again estimated by plugging in \\(\\color{red}{\\hat{\\sigma}^2}\\) (the estimate) for \\(\\sigma^2\\): \\[\\hat{\\mathbf{V}}\n    = \\left[\\begin{array}{cccc}\n        \\color{blue}{\\hat{v}_{11}} & \\hat{v}_{12} & \\cdots & \\hat{v}_{1p} \\\\\n        \\hat{v}_{21} & \\color{blue}{\\hat{v}_{22}} & \\cdots & \\hat{v}_{2p} \\\\\n        \\vdots &\\vdots &\\ddots &\\vdots \\\\\n        \\hat{v}_{p1} & \\hat{v}_{p2} &\\cdots &\\color{blue}{\\hat{v}_{pp}} \\\\\n        \\end{array}\\right]\n    = \\color{red}{\\hat{\\sigma}^2}\\left(\\mathbf{X'X}\\right)^{-1}\n\\]\n\n# retrieve parameter variance-covariance estimate\nmlr.fit().cov_params()\n\n\n\n\n\n\n\n\nconst\neduc_expected_yrs_f\nhdi\n\n\n\n\nconst\n0.059995\n-0.001839\n-0.050256\n\n\neduc_expected_yrs_f\n-0.001839\n0.001780\n-0.025240\n\n\nhdi\n-0.050256\n-0.025240\n0.462611"
+  },
+  {
+    "objectID": "docs/Lectures/week8-mlr.html#standard-errors",
+    "href": "docs/Lectures/week8-mlr.html#standard-errors",
+    "title": "Multiple regression",
+    "section": "Standard errors",
+    "text": "Standard errors\nThe square roots of the diagonal elements give standard errors: \\[\n\\text{SE}(\\hat{\\beta}_0) = \\sqrt{\\color{blue}{\\hat{v}_{11}}}\n    \\;,\\quad\n    \\text{SE}(\\hat{\\beta}_1) = \\sqrt{\\color{blue}{\\hat{v}_{22}}}\n    \\;,\\quad \\cdots \\quad\n    \\text{SE}(\\hat{\\beta}_{p - 1}) = \\sqrt{\\color{blue}{\\hat{v}_{pp}}}\n\\]\n\nnp.sqrt(mlr.fit().cov_params().values.diagonal())\n\narray([0.24493942, 0.042194  , 0.68015545])"
+  },
+  {
+    "objectID": "docs/Lectures/week8-mlr.html#model-fit-summary",
+    "href": "docs/Lectures/week8-mlr.html#model-fit-summary",
+    "title": "Multiple regression",
+    "section": "Model fit summary",
+    "text": "Model fit summary\nJust as before, a table is helpful:\n\n\nCode\nrslt = mlr.fit()\ncoef_tbl = pd.DataFrame({'estimate': rslt.params.values,\n              'standard error': np.sqrt(rslt.cov_params().values.diagonal())},\n              index = x.columns)\ncoef_tbl.loc['error variance', 'estimate'] = rslt.scale\n\ncoef_tbl\n\n\n\n\n\n\n\n\n\nestimate\nstandard error\n\n\n\n\nconst\n7.960371\n0.244939\n\n\neduc_expected_yrs_f\n-0.201996\n0.042194\n\n\nhdi\n-4.132623\n0.680155\n\n\nerror variance\n0.346909\nNaN"
+  },
+  {
+    "objectID": "docs/Lectures/week8-mlr.html#variance-explained",
+    "href": "docs/Lectures/week8-mlr.html#variance-explained",
+    "title": "Multiple regression",
+    "section": "Variance explained",
+    "text": "Variance explained\nThe \\(R^2\\) statistic – proportion of variance explained – is computed the same as before: \\[\n\\frac{\\hat{\\sigma}_\\text{raw}^2 - \\frac{n - 1}{n - p}\\hat{\\sigma}^2}{\\hat{\\sigma}_\\text{raw}^2}\n\\]\n\nrslt.rsquared\n\n0.7827796420988886"
+  },
+  {
+    "objectID": "docs/Lectures/week8-mlr.html#interpretation",
+    "href": "docs/Lectures/week8-mlr.html#interpretation",
+    "title": "Multiple regression",
+    "section": "Interpretation",
+    "text": "Interpretation\nWhile the computations are essentially unchanged, the presence of multiple predictors alters the interpretation of the parameters.\n\nIncrementing, say, HDI by one unit to get an estimated change assumes the other variable is held constant: \\[\n\\mathbb{E}(\\text{fertility}) + \\beta_2 = \\beta_0 + \\beta_1 (\\text{education}) + \\beta_2 \\left[(\\text{HDI}) + 1\\right]\n\\]\n\nif education also changes, then the estimated change in fertility is no longer \\(\\beta_2\\)\n\n\n\nSo now the interpretation is: a 0.1 increase in HDI is associated with an estimated decrease in fertility rate of 0.413, after accounting for education."
+  },
+  {
+    "objectID": "docs/Lectures/week8-mlr.html#inference",
+    "href": "docs/Lectures/week8-mlr.html#inference",
+    "title": "Multiple regression",
+    "section": "Inference",
+    "text": "Inference\nConfidence intervals are the same as before. A 95% interval is:\n\\[\n\\hat{\\beta}_j \\pm 2 SE(\\hat{\\beta}_j)\n\\]\n\n\nmlr.fit().conf_int().rename(columns = {0: 'lwr', 1: 'upr'})\n\n\n\n\n\n\n\n\nlwr\nupr\n\n\n\n\nconst\n7.475988\n8.444753\n\n\neduc_expected_yrs_f\n-0.285437\n-0.118554\n\n\nhdi\n-5.477671\n-2.787574"
+  },
+  {
+    "objectID": "docs/Lectures/week8-mlr.html#prediction",
+    "href": "docs/Lectures/week8-mlr.html#prediction",
+    "title": "Multiple regression",
+    "section": "Prediction",
+    "text": "Prediction\nDitto predictions.\n\n\\(\\hat{y} = \\mathbf{x}'\\hat{\\beta}\\)\n95% interval for the mean: \\(\\widehat{\\mathbb{E}y} \\pm 2 SE\\left(\\widehat{\\mathbb{E}y}\\right)\\)\n95% interval for a predicted observation: \\(\\hat{y} \\pm 2SE(\\hat{y})\\)\n\n\n\nx_new = np.array([1, 10, 0.5])\nmlr.fit().get_prediction(x_new).summary_frame()\n\n\n\n\n\n\n\n\nmean\nmean_se\nmean_ci_lower\nmean_ci_upper\nobs_ci_lower\nobs_ci_upper\n\n\n\n\n0\n3.874104\n0.119361\n3.63806\n4.110147\n2.685664\n5.062544"
+  },
+  {
+    "objectID": "docs/Lectures/week8-mlr.html#model-visualizations",
+    "href": "docs/Lectures/week8-mlr.html#model-visualizations",
+    "title": "Multiple regression",
+    "section": "Model visualizations",
+    "text": "Model visualizations\nVisualization gets a bit trickier because of the presence of that second variable. Here I plotted the marginal relationship with HDI for three quantiles of education.\n\n\nCode\n# set coordinates for grid mesh\neduc_gridpts = fertility.educ_expected_yrs_f.quantile([0.2, 0.5, 0.8]).values\nhdi_gridpts = np.linspace(fertility.hdi.min(), fertility.hdi.max(), num = 100)\n\n# create prediction grid\ng1, g2 = np.meshgrid(educ_gridpts, hdi_gridpts)\ngrid = np.array([g1.ravel(), g2.ravel()]).T\ngrid_df = pd.DataFrame(grid, columns = ['educ', 'hdi'])\n\n# format for input to get_prediction()\nx_pred = sm.tools.add_constant(grid_df)\n\n# compute predictions\npred_df = mlr.fit().get_prediction(x_pred).summary_frame()\n\n# append to grid\npred_df = pd.concat([grid_df, pred_df], axis = 1)\n\n# plot\nscatter = alt.Chart(fertility).mark_circle(opacity = 0.5).encode(\n    x = alt.X('hdi', \n        scale = alt.Scale(zero = False),\n        title = 'Human development index'),\n    y = alt.Y('fertility_total',\n        title = 'Fertility rate'),\n    color = alt.Color('educ_expected_yrs_f',\n        title = 'Education')\n)\n\nmodel = alt.Chart(pred_df).mark_line().encode(\n    x = 'hdi',\n    y = 'mean',\n    color = 'educ'\n)\n\n(scatter + model).configure_axis(\n    labelFontSize = 14,\n    titleFontSize = 16\n).configure_legend(\n    labelFontSize = 14,\n    titleFontSize = 16\n)"
+  },
+  {
+    "objectID": "docs/Lectures/week8-mlr.html#urban-tree-cover-data",
+    "href": "docs/Lectures/week8-mlr.html#urban-tree-cover-data",
+    "title": "Multiple regression",
+    "section": "Urban tree cover data",
+    "text": "Urban tree cover data\nTree canopy is thought to reduce summer temperatures in urban areas. Consider tree cover and a few other variables measured on a random sample of ~2K census blocks with some canpoy cover in San Diego:\n\n\nCode\ntrees.head(3)\n\n\n\n\n\n\n\n\n\ncensus_block_GEOID\ntree_cover\nmean_summer_temp\nmean_income\npop_density\n\n\n\n\n20504\n6.073020e+13\n25.798277\n33.859524\n66738\nvery low\n\n\n20849\n6.073000e+13\n11.439114\n32.150000\n63189\nvery low\n\n\n10621\n6.073020e+13\n26.661660\n32.404167\n35099\nhigh\n\n\n\n\n\n\n\n\n\nMcDonald RI, Biswas T, Sachar C, Housman I, Boucher TM, Balk D, et al. (2021) The tree cover and temperature disparity in US urbanized areas: Quantifying the association with income across 5,723 communities. PLoS ONE 16(4). doi:10.1371/journal.pone.0249715."
+  },
+  {
+    "objectID": "docs/Lectures/week8-mlr.html#simple-regression-analysis",
+    "href": "docs/Lectures/week8-mlr.html#simple-regression-analysis",
+    "title": "Multiple regression",
+    "section": "Simple regression analysis",
+    "text": "Simple regression analysis\nIs higher tree cover associated with lower summer temperatures?\n\n\n\n\nCode\nalt.Chart(trees).mark_circle(opacity = 0.3).encode(\n    x = alt.X('tree_cover', \n        title = 'Tree canopy cover (percent)'),\n    y = alt.Y('mean_summer_temp', \n        scale = alt.Scale(zero = False),\n        title = 'Average summer temperature (C)')\n).configure_axis(\n    titleFontSize = 16,\n    labelFontSize = 14\n)\n\n\n\n\n\n\n\n\n\nweak negative association\nlinear approximation seems reasonable\nlots of census blocks with low (&lt;10%) cover"
+  },
+  {
+    "objectID": "docs/Lectures/week8-mlr.html#simple-regression-analysis-1",
+    "href": "docs/Lectures/week8-mlr.html#simple-regression-analysis-1",
+    "title": "Multiple regression",
+    "section": "Simple regression analysis",
+    "text": "Simple regression analysis\nWe can use SLR to quantify the association:\n\n# explanatory and response variables\nx = sm.tools.add_constant(trees.tree_cover)\ny = trees.mean_summer_temp\n\n# fit temp ~ cover\nslr = sm.OLS(endog = y, exog = x)\nslr.fit().params\n\nconst         34.994336\ntree_cover    -0.073114\ndtype: float64\n\n\n\nEach 13.7% increase in tree canopy cover is associated with an estimated 1-degree decrease in mean summer surface temperatures.\n\n\n(How did I get 13.7%?)"
+  },
+  {
+    "objectID": "docs/Lectures/week8-mlr.html#simple-regression-analysis-2",
+    "href": "docs/Lectures/week8-mlr.html#simple-regression-analysis-2",
+    "title": "Multiple regression",
+    "section": "Simple regression analysis",
+    "text": "Simple regression analysis\nConfidence intervals:\n\n\nCode\nslr.fit().conf_int().rename(columns = {0: 'lwr', 1: 'upr'})\n\n\n\n\n\n\n\n\n\nlwr\nupr\n\n\n\n\nconst\n34.876501\n35.112170\n\n\ntree_cover\n-0.083032\n-0.063195\n\n\n\n\n\n\n\n\n\nInterpretation: with 95% confidence, a 10% increase in tree cover is associated with an estimated decrease in mean summer surface temperatures between 0.6 and 0.8 degrees celsius."
+  },
+  {
+    "objectID": "docs/Lectures/week8-mlr.html#considering-more-variables",
+    "href": "docs/Lectures/week8-mlr.html#considering-more-variables",
+    "title": "Multiple regression",
+    "section": "Considering more variables",
+    "text": "Considering more variables\nIs tree cover associated with affluence and population density?\n\n\n\n\nCode\nalt.Chart(trees).mark_circle(opacity = 0.3).encode(\n    x = alt.X('mean_income', \n        scale = alt.Scale(type = 'log'),\n        title = 'Mean income (USD)'),\n    y = alt.Y('tree_cover', \n        scale = alt.Scale(type = 'log'),\n        title = 'Tree cover (percent)')\n).configure_axis(\n    titleFontSize = 16,\n    labelFontSize = 14\n)\n\n\n\n\n\n\n\n\n\nmaybe with income, not clear about density\nto answer exactly, want to model tree_cover as a function of mean_income and pop_density"
+  },
+  {
+    "objectID": "docs/Lectures/week8-mlr.html#handling-categorical-variables",
+    "href": "docs/Lectures/week8-mlr.html#handling-categorical-variables",
+    "title": "Multiple regression",
+    "section": "Handling categorical variables",
+    "text": "Handling categorical variables\nThe population density is recorded as a categorical variable:\n\n\nCode\nregdata = trees.loc[:, ['tree_cover', 'mean_income', 'pop_density']]\nregdata['log_cover'] = np.log(regdata.tree_cover)\nregdata['log_income'] = np.log(regdata.mean_income)\nregdata.drop(columns = {'tree_cover', 'mean_income'}, inplace = True)\nregdata.head(4)\n\n\n\n\n\n\n\n\n\npop_density\nlog_cover\nlog_income\n\n\n\n\n20504\nvery low\n3.250308\n11.108530\n\n\n20849\nvery low\n2.437039\n11.053886\n\n\n10621\nhigh\n3.283227\n10.465928\n\n\n9031\nlow\n2.311344\n10.309253\n\n\n\n\n\n\n\n\nOn face value, it might seem we could simply fit this model: \\[\n\\underbrace{\\log(\\text{cover}_i)}_{y_i}\n    = \\beta_0 +\n        \\beta_1 \\underbrace{\\log(\\text{income}_i)}_{x_{i1}} +\n        \\beta_2 \\underbrace{\\text{density}_i}_{x_{i2}} + \\epsilon_i\n    \\qquad i = 1, \\dots, 2000\n\\]\n\n\nBut this doesn’t quite make sense, because the values of \\(\\text{density}_i\\) would be words!"
+  },
+  {
+    "objectID": "docs/Lectures/week8-mlr.html#indicator-variable-encoding",
+    "href": "docs/Lectures/week8-mlr.html#indicator-variable-encoding",
+    "title": "Multiple regression",
+    "section": "Indicator variable encoding",
+    "text": "Indicator variable encoding\nThe solution to this issue is to encode each level of the categorical variable separately using a set of indicator variables.\n\nFor instance, to indicate whether a census block is of low population density, we can use the indicator:\n\\[\nI(\\text{density $=$ low}) = \\begin{cases} 1 \\text{ if population density is low} \\\\ 0 \\text{ otherwise}\\end{cases}\n\\]\n\n\nWe can encode the levels of pop_density using a collection of indicators:\n\n\nCode\n# create indicator variables\ndensity_encoded = pd.get_dummies(regdata.pop_density, drop_first = True)\n\n# display example values corresponding to categorical variable\npd.concat([regdata[['pop_density']], density_encoded], axis = 1).groupby('pop_density').head(2)\n\n\n\n\n\n\n\n\n\npop_density\nlow\nmedium\nhigh\n\n\n\n\n20504\nvery low\n0\n0\n0\n\n\n20849\nvery low\n0\n0\n0\n\n\n10621\nhigh\n0\n0\n1\n\n\n9031\nlow\n1\n0\n0\n\n\n1004\nhigh\n0\n0\n1\n\n\n15939\nlow\n1\n0\n0\n\n\n6647\nmedium\n0\n1\n0\n\n\n17963\nmedium\n0\n1\n0"
+  },
+  {
+    "objectID": "docs/Lectures/week8-mlr.html#the-mlr-model-with-indicators",
+    "href": "docs/Lectures/week8-mlr.html#the-mlr-model-with-indicators",
+    "title": "Multiple regression",
+    "section": "The MLR model with indicators",
+    "text": "The MLR model with indicators\nThe model with the encoded population density variable is:\n\\[\n\\underbrace{\\log(\\text{cover}_i)}_{y_i}\n    = \\beta_0 +\n        \\beta_1 \\underbrace{\\log(\\text{income}_i)}_{x_{i1}} +\n        \\beta_2 \\underbrace{\\text{low}_i}_{x_{i2}} +\n        \\beta_3 \\underbrace{\\text{med}_i}_{x_{i3}} +\n        \\beta_4 \\underbrace{\\text{high}_i}_{x_{i4}} +\n        \\epsilon_i\n\\]\n\nThe effect is that the model has different intercepts for each population density.\n\\[\n\\begin{align*}\n\\text{density $=$ very low}\n    &\\quad\\Longrightarrow\\quad\n    \\mathbb{E}\\log(\\text{cover}_i)\n        = \\underbrace{\\beta_0}_\\text{intercept} + \\beta_1\\log(\\text{income}_i) \\\\\n\\text{density $=$ low}\n    &\\quad\\Longrightarrow\\quad\n    \\mathbb{E}\\log(\\text{cover}_i)\n        = \\underbrace{\\beta_0 + \\beta_2}_\\text{intercept} + \\beta_1\\log(\\text{income}_i) \\\\\n\\text{density $=$ medium}\n    &\\quad\\Longrightarrow\\quad\n    \\mathbb{E}\\log(\\text{cover}_i)\n        = \\underbrace{\\beta_0 + \\beta_3}_\\text{intercept} + \\beta_1\\log(\\text{income}_i) \\\\\n\\text{density $=$ high}\n    &\\quad\\Longrightarrow\\quad\n    \\mathbb{E}\\log(\\text{cover}_i)\n        = \\underbrace{\\beta_0 + \\beta_4}_\\text{intercept} + \\beta_1\\log(\\text{income}_i)\n\\end{align*}\n\\]"
+  },
+  {
+    "objectID": "docs/Lectures/week8-mlr.html#in-matrix-form",
+    "href": "docs/Lectures/week8-mlr.html#in-matrix-form",
+    "title": "Multiple regression",
+    "section": "In matrix form",
+    "text": "In matrix form\nThe explanatory variable matrix \\(\\mathbf{X}\\) for this model will be of the form:\n\\[\n\\mathbf{X} = \\left[\\begin{array}{c:cccc}\n    1 &\\log(\\text{income}_{1}) &\\text{low}_1 &\\text{med}_1 &\\text{high}_1 \\\\\n    1 &\\log(\\text{income}_{2}) &\\text{low}_2 &\\text{med}_2 &\\text{high}_2 \\\\\n    \\vdots &\\vdots &\\vdots &\\vdots &\\vdots \\\\\n    1 &\\log(\\text{income}_{2000}) &\\text{low}_{2000} &\\text{med}_{2000} &\\text{high}_{2000}\n    \\end{array}\\right]\n\\]\n\n\n\nCode\n# form explanatory variable matrix\nx_vars = pd.concat([regdata.log_income, density_encoded], axis = 1)\nx = sm.tools.add_constant(x_vars)\nx.head(4)\n\n\n\n\n\n\n\n\n\nconst\nlog_income\nlow\nmedium\nhigh\n\n\n\n\n20504\n1.0\n11.108530\n0\n0\n0\n\n\n20849\n1.0\n11.053886\n0\n0\n0\n\n\n10621\n1.0\n10.465928\n0\n0\n1\n\n\n9031\n1.0\n10.309253\n1\n0\n0"
+  },
+  {
+    "objectID": "docs/Lectures/week8-mlr.html#fit-summary",
+    "href": "docs/Lectures/week8-mlr.html#fit-summary",
+    "title": "Multiple regression",
+    "section": "Fit summary",
+    "text": "Fit summary\nThe remaining calculations are all the same as before. Here is the model fit summary:\n\n\nCode\n# form explanatory variable matrix\nx_vars = pd.concat([regdata.log_income, density_encoded], axis = 1)\nx = sm.tools.add_constant(x_vars)\ny = regdata.log_cover\n\n# fit model\nmlr = sm.OLS(endog = y, exog = x)\nrslt = mlr.fit()\n\n# summarize fit\ncoef_tbl = pd.DataFrame({\n    'estimate': rslt.params,\n    'standard error': np.sqrt(rslt.cov_params().values.diagonal())\n}, index = x.columns.values)\ncoef_tbl.loc['error variance', 'estimate'] = rslt.scale\n\ncoef_tbl\n\n\n\n\n\n\n\n\n\nestimate\nstandard error\n\n\n\n\nconst\n-4.751870\n0.621673\n\n\nlog_income\n0.631469\n0.058290\n\n\nlow\n-0.414486\n0.070483\n\n\nmedium\n-0.675626\n0.079552\n\n\nhigh\n-0.606980\n0.101708\n\n\nerror variance\n1.552578\nNaN\n\n\n\n\n\n\n\n\nincome is positively associated with tree cover\nbut how do you interpret the coefficients for the indicator variables?"
+  },
+  {
+    "objectID": "docs/Lectures/week8-mlr.html#interpreting-indicator-coefficients",
+    "href": "docs/Lectures/week8-mlr.html#interpreting-indicator-coefficients",
+    "title": "Multiple regression",
+    "section": "Interpreting indicator coefficients",
+    "text": "Interpreting indicator coefficients\nEach level of the categorical variable has its own intercept:\n\\[\n\\begin{align*}\n\\text{very low density:}\\quad &\\mathbb{E}\\log(\\text{cover}) = \\beta_0 + \\beta_1 \\log(\\text{income}) \\\\\n\\text{low density:}\\quad &\\mathbb{E}\\log(\\text{cover}) = (\\beta_0 + \\beta_2) + \\beta_1 \\log(\\text{income}) \\\\\n\\text{medium density:}\\quad &\\mathbb{E}\\log(\\text{cover}) = (\\beta_0 + \\beta_3) + \\beta_1 \\log(\\text{income}) \\\\\n\\text{high density:}\\quad &\\mathbb{E}\\log(\\text{cover}) = (\\beta_0 + \\beta_4) + \\beta_1 \\log(\\text{income})\n\\end{align*}\n\\]\n\n\\(\\beta_0\\) is the intercept when density is very low – this gets called the reference level\n\\(\\beta_2, \\beta_3, \\beta_4\\) are interpreted relative to the reference level:\n\n\\(\\beta_2\\) is the difference in expected log cover between low density and very low density blocks, after accounting for income\n\\(\\beta_3\\) is the difference in expected log cover between medium density and very low density blocks, after accounting for income\n\\(\\beta_4\\) is the difference in expected log cover between high density and very low density blocks, after accounting for income"
+  },
+  {
+    "objectID": "docs/Lectures/week8-mlr.html#interpreting-estimates",
+    "href": "docs/Lectures/week8-mlr.html#interpreting-estimates",
+    "title": "Multiple regression",
+    "section": "Interpreting estimates",
+    "text": "Interpreting estimates\n\n\n\n\n\n\n\n\n\nestimate\nstandard error\n\n\n\n\nconst\n-4.751870\n0.621673\n\n\nlog_income\n0.631469\n0.058290\n\n\nlow\n-0.414486\n0.070483\n\n\nmedium\n-0.675626\n0.079552\n\n\nhigh\n-0.606980\n0.101708\n\n\nerror variance\n1.552578\nNaN\n\n\n\n\n\n\n\n\neach doubling of mean income is associated with an estimated 55% increase in median tree cover, after accounting for population density\ncensus blocks with higher population densities are estimated as having a median tree canopy up to 50% lower than census blocks with very low population densities, after accounting for mean income"
+  },
+  {
+    "objectID": "docs/Lectures/week8-mlr.html#prediction-1",
+    "href": "docs/Lectures/week8-mlr.html#prediction-1",
+    "title": "Multiple regression",
+    "section": "Prediction",
+    "text": "Prediction\nPrediction works the same way, but we need to supply the indicator encoding rather than the categorical variable level.\n\nx_new = np.array([1, np.log(115000), 0, 1, 0])\npred = rslt.get_prediction(x_new)\nnp.exp(pred.summary_frame())\n\n\n\n\n\n\n\n\nmean\nmean_se\nmean_ci_lower\nmean_ci_upper\nobs_ci_lower\nobs_ci_upper\n\n\n\n\n0\n6.895105\n1.102304\n5.696153\n8.346419\n0.594349\n79.990893\n\n\n\n\n\n\n\nCheck your understanding and fill in the blanks:\n\nthe median tree cover for a _______ density census block with mean income _______ is estimated to be between _______ and _______ percent\nthe tree cover for a _______ density census block with mean income _______ is estimated to be between _______ and _______ percent"
+  },
+  {
+    "objectID": "docs/Lectures/week8-mlr.html#comments-on-scope-of-inference",
+    "href": "docs/Lectures/week8-mlr.html#comments-on-scope-of-inference",
+    "title": "Multiple regression",
+    "section": "Comments on scope of inference",
+    "text": "Comments on scope of inference\nThe data in this case study are from a random sample of census blocks in the San Diego urban area.\n\nThey are therefore representative of all census blocks in the San Diego urban area.\n\n\n\nThe model approximates the actual associations between summer temperatures, tree cover, income, and population density in the region."
   }
 ]
